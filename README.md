@@ -1,7 +1,7 @@
 # aspnetcore-webapp-sample
 
 ## Preface
-This sample project uses [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/) and [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/). It provides only Web API. So, I recommend using a [vuejs-webapp-sample](https://github.com/ybkuroki/vuejs-managesys) project as Web Front End.
+This sample project uses [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/) and [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/). It provides only Web API. So, I recommend using a [vuejs-webapp-sample](https://github.com/ybkuroki/vuejs-webapp-sample) project as Web Front End.
 
 ## Install
 Perform the following steps:
