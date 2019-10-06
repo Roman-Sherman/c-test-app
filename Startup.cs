@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -63,7 +63,7 @@ namespace aspdotnet_managesys
             else
             {
                 // EntityFrameworkCoreにリポジトリを登録
-                services.AddDbContext<BookRepository>(options => options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
+                services.AddDbContext<BookRepository>(options => options.UseNpgsql(Configuration.GetConnectionString("NpgSqlConnection")));
             }
 
             // ASP.NET Core MVCの設定
