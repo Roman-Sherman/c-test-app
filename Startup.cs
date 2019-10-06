@@ -55,7 +55,7 @@ namespace aspdotnet_managesys
             services.AddScoped<MasterService, MasterService>();
             services.AddScoped<BookService, BookService>();
 
-            if (string.IsNullOrEmpty(Configuration.GetConnectionString("MySqlConnection")))
+            if (string.IsNullOrEmpty(Configuration.GetConnectionString("NpgSqlConnection")))
             {
                 // EntityFrameworkCoreにリポジトリを登録
                 services.AddDbContext<BookRepository>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
