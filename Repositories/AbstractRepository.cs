@@ -9,7 +9,8 @@ namespace aspdotnet_managesys.Repositories
 {
     public abstract class AbstractRepository : IdentityDbContext
     {
-        public AbstractRepository(DbContextOptions options) : base(options) {
+        public AbstractRepository(DbContextOptions options) : base(options)
+        {
         }
 
         public DbSet<TEntity> EntitySet<TEntity>() where TEntity : class
@@ -40,7 +41,7 @@ namespace aspdotnet_managesys.Repositories
             var pageCount = (double)result.TotalElements / pageSize;
             result.TotalPages = (int)Math.Ceiling(pageCount);
 
-            var skip = page * pageSize;     
+            var skip = page * pageSize;
             result.Content = query.Skip(skip).Take(pageSize).ToList();
 
             return result;
@@ -93,7 +94,7 @@ namespace aspdotnet_managesys.Repositories
 
         public void Transaction(Action func)
         {
-            Transaction(() => { func(); return true;});
+            Transaction(() => { func(); return true; });
         }
     }
 }

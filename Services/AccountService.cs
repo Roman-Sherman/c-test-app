@@ -7,8 +7,9 @@ namespace aspdotnet_managesys.Services
     {
         private readonly BookRepository repo;
 
-        public AccountService(BookRepository rep) {
+        public AccountService(BookRepository rep)
+        {
             repo = rep;
         }
-     }
+    }
 }

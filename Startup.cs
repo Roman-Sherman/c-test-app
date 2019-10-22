@@ -90,19 +90,19 @@ namespace aspdotnet_managesys
 
             // Cookie認証を利用する、認証失敗時は401を返す
             services.ConfigureApplicationCookie(options =>
-			{
-				options.Events.OnRedirectToLogin = context =>
-				{
-					context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
-					return Task.CompletedTask;
-				};
-			});
-			
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    return Task.CompletedTask;
+                };
+            });
+
             // CORS設定
             services
                 .AddCors(options =>
                     options.AddPolicy("AllowAll", p => p.WithOrigins("http://localhost:3000", "http://localhost").AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
-            
+
             // Swaggerをサービスに登録する
             // http://localhost:8080/swagger
             services.AddSwaggerGen(c =>
@@ -113,7 +113,7 @@ namespace aspdotnet_managesys
                     Title = "ManagementSystem API",
                     Description = "A simple example ASP.NET Core Web API",
                     License = new License { Name = "Use under LICX", Url = "https://example.com/license" }
-                 });
+                });
             });
         }
 

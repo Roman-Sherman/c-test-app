@@ -58,7 +58,7 @@ namespace aspdotnet_managesys.Logger
             throw new NotImplementedException();
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, 
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state,
             Exception exception, Func<TState, Exception, string> formatter)
         {
             if (!IsEnabled(logLevel))

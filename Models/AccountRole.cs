@@ -8,11 +8,14 @@ using Microsoft.AspNetCore.Identity;
 namespace aspdotnet_managesys.Models
 {
     [Table("ACCOUNT_ROLE")]
-    public class AccountRole : IdentityRole {
-        public AccountRole() : base() {
+    public class AccountRole : IdentityRole
+    {
+        public AccountRole() : base()
+        {
         }
 
-        public AccountRole(string roleName) : base(roleName) {
+        public AccountRole(string roleName) : base(roleName)
+        {
         }
 
         public static AccountRole FindById(AbstractRepository repo, Guid id)
@@ -29,7 +32,7 @@ namespace aspdotnet_managesys.Models
         {
             repo.Save<AccountRole>(this);
         }
-        
+
         public void Update(AbstractRepository repo)
         {
             repo.Change<AccountRole>(this);

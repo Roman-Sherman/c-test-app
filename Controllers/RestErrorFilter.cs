@@ -24,9 +24,9 @@ namespace aspdotnet_managesys.Controllers
                 }
 
                 JsonResult result = new JsonResult(errors);
-                result.StatusCode = (int) HttpStatusCode.BadRequest;
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Result = result;
             }
-        }        
+        }
     }
 }

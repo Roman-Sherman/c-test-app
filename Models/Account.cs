@@ -8,14 +8,17 @@ using Microsoft.AspNetCore.Identity;
 namespace aspdotnet_managesys.Models
 {
     [Table("ACCOUNT")]
-    public class Account : IdentityUser {
+    public class Account : IdentityUser
+    {
 
         public string name { get; set; }
 
-        public Account() : base() {
+        public Account() : base()
+        {
         }
 
-        public Account(string userName) : base(userName) {
+        public Account(string userName) : base(userName)
+        {
             this.name = userName;
         }
 
@@ -33,7 +36,7 @@ namespace aspdotnet_managesys.Models
         {
             repo.Save<Account>(this);
         }
-        
+
         public void Update(AbstractRepository repo)
         {
             repo.Change<Account>(this);

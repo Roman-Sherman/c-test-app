@@ -38,24 +38,29 @@ namespace aspdotnet_managesys.Controllers
             }
 
             var result = await signInManager.PasswordSignInAsync(userName, passWord, false, false);
-            
-            if (result.Succeeded) {
+
+            if (result.Succeeded)
+            {
                 return Ok();
-                  
-            } else {
+
+            }
+            else
+            {
                 return Unauthorized();
             }
         }
 
         [AllowAnonymous]
         [HttpPost("logout")]
-        public async Task<IdentityResult> LogOut([FromServices]SignInManager<Account> signInManager) {
+        public async Task<IdentityResult> LogOut([FromServices]SignInManager<Account> signInManager)
+        {
             await signInManager.SignOutAsync();
             return IdentityResult.Success;
         }
 
         [HttpGet("loginAccount")]
-        public Account loginAccount([FromServices]SignInManager<Account> signInManager, [FromServices]UserManager<Account> userManager) {
+        public Account loginAccount([FromServices]SignInManager<Account> signInManager, [FromServices]UserManager<Account> userManager)
+        {
             return signInManager.IsSignedIn(this.User) ? userManager.GetUserAsync(this.User).Result : null;
         }
     }

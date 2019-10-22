@@ -19,7 +19,7 @@ namespace aspdotnet_managesys.Controllers
         {
             this.service = service;
         }
-        
+
         [HttpGet("list")]
         public PagedList<Book> GetAll([FromQuery] PagedList<Book> list)
         {
@@ -37,18 +37,18 @@ namespace aspdotnet_managesys.Controllers
         {
             service.SaveBook(book);
         }
-        
+
         [HttpPost("edit")]
         public void EditBook([FromBody] Book book)
         {
             service.UpdateBook(book);
         }
-        
+
         [HttpPost("delete")]
         public void DeleteBook([FromBody] Book book)
         {
             Book b = service.FindById(book.Id);
-		    service.DeleteBook(b);
+            service.DeleteBook(b);
         }
     }
 }

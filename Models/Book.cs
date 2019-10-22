@@ -11,7 +11,7 @@ namespace aspdotnet_managesys.Models
     {
         [Key]
         public int Id { get; set; }
-        
+
         [MaxLength(50, ErrorMessage = "書籍タイトルは、{1}文字以内で入力してください。")]
         [MinLength(3, ErrorMessage = "書籍タイトルは、{1}文字以上で入力してください。")]
         public string Title { get; set; }
@@ -53,18 +53,19 @@ namespace aspdotnet_managesys.Models
             var formats = repo.EntitySet<Format>();
 
             var outerJoin = from b in books
-                                join c in categories on b.Category.Id equals c.Id into gs
-                                from g in gs.DefaultIfEmpty()
-                                join f in formats on b.Format.Id equals f.Id into gj
-                                from h in gj.DefaultIfEmpty()
-                                select new Book {
-                                    Id = b.Id,
-                                    Title = b.Title,
-                                    Isbn = b.Isbn,
-                                    Category = g,
-                                    Format = h
-                                };
-            
+                            join c in categories on b.Category.Id equals c.Id into gs
+                            from g in gs.DefaultIfEmpty()
+                            join f in formats on b.Format.Id equals f.Id into gj
+                            from h in gj.DefaultIfEmpty()
+                            select new Book
+                            {
+                                Id = b.Id,
+                                Title = b.Title,
+                                Isbn = b.Isbn,
+                                Category = g,
+                                Format = h
+                            };
+
             return outerJoin;
         }
 

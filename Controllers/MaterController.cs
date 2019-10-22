@@ -23,7 +23,7 @@ namespace aspdotnet_managesys.Controllers
         {
             return service.FindAllCategories();
         }
-        
+
         [HttpGet("format")]
         public IEnumerable<Format> ListFormat()
         {

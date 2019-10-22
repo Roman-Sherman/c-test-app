@@ -11,14 +11,15 @@ namespace aspdotnet_managesys.Repositories
 {
     public class BookRepository : AbstractRepository
     {
-        public BookRepository(DbContextOptions options) : base(options) {
+        public BookRepository(DbContextOptions options) : base(options)
+        {
             // ロガーの設定
             var serviceProvider = this.GetInfrastructure();
             var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             loggerFactory.AddProvider(new Log4NetProvider("log4net.config"));
         }
 
-        public DbSet<Book> Books { get; set;}
+        public DbSet<Book> Books { get; set; }
         public DbSet<Format> Formats { get; set; }
         public DbSet<Category> Categories { get; set; }
 
