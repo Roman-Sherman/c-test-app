@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using aspdotnet_managesys.Common;
@@ -18,12 +15,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace aspdotnet_managesys
 {
@@ -68,14 +63,20 @@ namespace aspdotnet_managesys
 
             // ASP.NET Core MVCの設定
             services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddControllers()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddMvcOptions(options =>
                 {
                     // バリデーション例外処理
                     options.Filters.Add(new RestErrorFilter());
                 })
-                .AddJsonOptions(options =>
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    // 自動的な 400 応答を無効にする
+                    // ref : https://docs.microsoft.com/ja-jp/aspnet/core/web-api/?view=aspnetcore-3.0#disable-automatic-400-response
+                    options.SuppressModelStateInvalidFilter = true;
+                })
+                .AddNewtonsoftJson(options =>
                 {
                     // JSONデータのカスタマイズ
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -103,37 +104,32 @@ namespace aspdotnet_managesys
                 .AddCors(options =>
                     options.AddPolicy("AllowAll", p => p.WithOrigins("http://localhost:3000", "http://localhost").AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
 
-            // Swaggerをサービスに登録する
-            // http://localhost:8080/swagger
+            // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "ManagementSystem API",
-                    Description = "A simple example ASP.NET Core Web API",
-                    License = new License { Name = "Use under LICX", Url = "https://example.com/license" }
-                });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.NET Core Web App Sample API", Version = "v1" });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             // Log4Netによるロギングを有効にする
             loggerFactory.AddLog4Net();
 
-            // Swaggerを有効にする
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
-            // Swagger UIを有効にする
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ASP.NET Core Web App Sample API V1");
             });
 
             // ヘルスチェックを有効にする
             app.UseHealthChecks("/api/health", port: 8080);
+            app.UseRouting();
 
             if (env.IsDevelopment())
             {
@@ -150,7 +146,12 @@ namespace aspdotnet_managesys
 
             app.UseCookiePolicy();
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

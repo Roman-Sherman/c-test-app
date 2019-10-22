@@ -1,5 +1,3 @@
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using aspdotnet_managesys.Models;
 using aspdotnet_managesys.Services;

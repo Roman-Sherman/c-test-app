@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using aspdotnet_managesys.Models;
 using aspdotnet_managesys.Repositories;
 using aspdotnet_managesys.Services;

@@ -87,12 +87,12 @@ This sample uses the following libraries.
 
 |Library Name|Version|
 |:---|:---:|
-|ASP.NET Core|2.2|
-|Entity Framework Core|2.2|
+|ASP.NET Core|3.0|
+|Entity Framework Core|3.0|
 |System.Linq|4.3.0|
-|Newtonsoft.Json|11.0.2|
+|Newtonsoft.Json|12.0.2|
 |log4net|2.0.8|
-|Swashbuckle.AspNetCore|3.0.0|
+|Swashbuckle.AspNetCore|5.0.0-rc4|
 
 ## License
 The License of this sample is *MIT License*.
