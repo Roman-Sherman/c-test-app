@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using aspdotnet_managesys.Models;
+using aspdotnet_managesys.Models.Dtos;
 using aspdotnet_managesys.Repositories;
 
 namespace aspdotnet_managesys.Services
@@ -46,23 +47,28 @@ namespace aspdotnet_managesys.Services
             });
         }
 
-        public void SaveBook(Book book)
+        public Book SaveBook(RegBook book)
         {
-            repo.Transaction(() =>
+            return repo.Transaction(() =>
             {
-                Category category = Category.FindById(repo, book.Category.Id);
-                book.Category = category;
+                Category category = Category.FindById(repo, book.CategoryId);
+                Format format = Format.FindById(repo, book.FormatId);
 
-                Format format = Format.FindById(repo, book.Format.Id);
-                book.Format = format;
-
-                book.Save(repo);
+                Book entity = book.create();
+                if (category != null && format != null)
+                {
+                    entity.Category = category;
+                    entity.Format = format;
+                    entity.Save(repo);
+                    return entity;
+                }
+                return null;
             });
         }
 
-        public void UpdateBook(Book book)
+        public Book UpdateBook(ChgBook book)
         {
-            repo.Transaction(() =>
+            return repo.Transaction(() =>
             {
                 Book entity = Book.FindById(repo, book.Id);
 
@@ -71,20 +77,34 @@ namespace aspdotnet_managesys.Services
                     entity.Title = book.Title;
                     entity.Isbn = book.Isbn;
 
-                    Category category = Category.FindById(repo, book.Category.Id);
-                    entity.Category = category;
+                    Category category = Category.FindById(repo, book.CategoryId);
+                    Format format = Format.FindById(repo, book.FormatId);
 
-                    Format format = Format.FindById(repo, book.Format.Id);
-                    entity.Format = format;
-
-                    entity.Update(repo);
+                    if (category != null && format != null)
+                    {
+                        entity.Category = category;
+                        entity.Format = format;
+                        entity.Update(repo);
+                        return entity;
+                    }
+                    return null;
                 }
+                return null;
             });
         }
 
-        public void DeleteBook(Book book)
+        public Book DeleteBook(ChgBook book)
         {
-            repo.Transaction(() => book.Delete(repo));
+            return repo.Transaction(() =>
+            {
+                Book entity = Book.FindById(repo, book.Id);
+                if (entity != null)
+                {
+                    entity.Delete(repo);
+                    return entity;
+                }
+                return null;
+            });
         }
 
     }

@@ -1,4 +1,5 @@
 using aspdotnet_managesys.Models;
+using aspdotnet_managesys.Models.Dtos;
 using aspdotnet_managesys.Repositories;
 using aspdotnet_managesys.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -31,22 +32,21 @@ namespace aspdotnet_managesys.Controllers
         }
 
         [HttpPost("new")]
-        public void SaveBook([FromBody] Book book)
+        public Book SaveBook([FromBody] RegBook book)
         {
-            service.SaveBook(book);
+            return service.SaveBook(book);
         }
 
         [HttpPost("edit")]
-        public void EditBook([FromBody] Book book)
+        public Book EditBook([FromBody] ChgBook book)
         {
-            service.UpdateBook(book);
+            return service.UpdateBook(book);
         }
 
         [HttpPost("delete")]
-        public void DeleteBook([FromBody] Book book)
+        public Book DeleteBook([FromBody] ChgBook book)
         {
-            Book b = service.FindById(book.Id);
-            service.DeleteBook(b);
+            return service.DeleteBook(book);
         }
     }
 }
