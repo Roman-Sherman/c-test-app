@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using aspdotnet_managesys.Models;
 using aspdotnet_managesys.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -8,29 +9,31 @@ namespace aspdotnet_managesys.Common
 {
     public static class MasterDataGenerator
     {
-        public static void InitializeAsync(IServiceProvider serviceProvider)
+        public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 BookRepository rep = serviceScope.ServiceProvider.GetService<BookRepository>();
+                
+                // データベースの初期化
+                rep.Database.EnsureDeleted();
+                // テーブル生成
+                rep.Database.EnsureCreated();
+                
+                // アカウントの生成
                 UserManager<Account> userManager = serviceScope.ServiceProvider.GetService<UserManager<Account>>();
-                MasterDataGenerator.Initialize(rep, userManager);
+                var user = new Account("test");
+                var password = "Pa$$w0rd";
+                var result = await userManager.CreateAsync(user, password);
+                
+                if (result.Succeeded) {
+                    // 初期データ挿入
+                    InsertInitialData(rep);
+                }
             }
         }
 
-        public static void Initialize(BookRepository rep, UserManager<Account> userManager)
-        {
-            // データベースの初期化
-            rep.Database.EnsureDeleted();
-            // テーブル生成
-            rep.Database.EnsureCreated();
-            // アカウント作成
-            CreateUserAsync(userManager);
-            // 初期データ挿入
-            InsertTestData(rep);
-        }
-
-        private static void InsertTestData(BookRepository rep)
+        private static void InsertInitialData(BookRepository rep)
         {
             Format f1 = new Format { Name = "書籍" };
             f1.Save(rep);
@@ -62,13 +65,6 @@ namespace aspdotnet_managesys.Common
             }
 
             rep.SaveChanges();
-        }
-
-        private static async void CreateUserAsync(UserManager<Account> userManager)
-        {
-            var user = new Account("test");
-            var password = "Pa$$w0rd";
-            await userManager.CreateAsync(user, password);
         }
     }
 }

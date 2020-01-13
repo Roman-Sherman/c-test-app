@@ -40,7 +40,6 @@ namespace aspdotnet_managesys.Controllers
             if (result.Succeeded)
             {
                 return Ok();
-
             }
             else
             {
