@@ -135,13 +135,13 @@ namespace aspdotnet_managesys
             {
                 app.UseDeveloperExceptionPage();
                 app.UseCors("AllowAll");
-                Task task = MasterDataGenerator.InitializeAsync(app.ApplicationServices);
+                MasterDataGenerator.InitializeAsync(app.ApplicationServices);
             }
 
             if (env.IsEnvironment("Docker"))
             {
                 app.UseCors("AllowAll");
-                Task task = MasterDataGenerator.InitializeAsync(app.ApplicationServices);
+                MasterDataGenerator.InitializeAsync(app.ApplicationServices);
             }
 
             app.UseCookiePolicy();

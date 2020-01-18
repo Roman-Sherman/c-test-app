@@ -9,31 +9,41 @@ namespace aspdotnet_managesys.Common
 {
     public static class MasterDataGenerator
     {
-        public static async Task InitializeAsync(IServiceProvider serviceProvider)
+        public static async void InitializeAsync(IServiceProvider serviceProvider)
         {
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 BookRepository rep = serviceScope.ServiceProvider.GetService<BookRepository>();
-                
                 // データベースの初期化
-                rep.Database.EnsureDeleted();
-                // テーブル生成
-                rep.Database.EnsureCreated();
-                
-                // アカウントの生成
-                UserManager<Account> userManager = serviceScope.ServiceProvider.GetService<UserManager<Account>>();
-                var user = new Account("test");
-                var password = "Pa$$w0rd";
-                var result = await userManager.CreateAsync(user, password);
-                
-                if (result.Succeeded) {
-                    // 初期データ挿入
-                    InsertInitialData(rep);
-                }
+                initializeDatabase(rep);
+                // テストデータの生成
+                await createTestData(serviceScope, rep);
             }
         }
 
-        private static void InsertInitialData(BookRepository rep)
+        private static void initializeDatabase(BookRepository rep)
+        {
+            // データベースの初期化
+            rep.Database.EnsureDeleted();
+            // テーブル生成
+            rep.Database.EnsureCreated();
+        }
+
+        private static async Task createTestData(IServiceScope serviceScope, BookRepository rep)
+        {
+            UserManager<Account> userManager = serviceScope.ServiceProvider.GetService<UserManager<Account>>();
+            var user = new Account("test");
+            var password = "Pa$$w0rd";
+            var result = await userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                // ダミーデータ挿入
+                insertDummyData(rep);
+            }
+        }
+
+        private static void insertDummyData(BookRepository rep)
         {
             Format f1 = new Format { Name = "書籍" };
             f1.Save(rep);
