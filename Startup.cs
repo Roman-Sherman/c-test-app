@@ -141,7 +141,6 @@ namespace aspdotnet_managesys
             if (env.IsEnvironment("Docker"))
             {
                 app.UseCors("AllowAll");
-                MasterDataGenerator.InitializeAsync(app.ApplicationServices);
             }
 
             app.UseCookiePolicy();
