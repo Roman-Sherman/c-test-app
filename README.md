@@ -25,6 +25,9 @@ Perform the following steps:
     Application started. Press Ctrl+C to shut down.
     ```
 1. Access [http://localhost:8080/api/health](http://localhost:8080/api/health) in your browser and confirm that this application has started.
+1. Log in with the following username and password.
+    - username : ``test``
+    - password : ``Pa$$w0rd``
 
 ## Creating a Production Build
 Perform the following command:
